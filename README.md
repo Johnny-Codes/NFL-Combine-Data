@@ -15,7 +15,9 @@ The data available:
 Ideally, this information can be gathered and then with another script, gather NFL production data for each player for further data analysis.
 
 # Current Issues (7 Feb 18)
-[] the for loop containing each URL link only returns the last page of data (2017). The for loop goes through (verified with print()), however, the data for the previous pages are lost somewhere.
+[X] FIXED the for loop containing each URL link only returns the last page of data (2017). The for loop goes through (verified with print()), however, the data for the previous pages are lost somewhere. (Thanks to @Maelstrom)
+
+[] Pulls all the data and saves them in the CSV, however, if there is an empty cell on the site, it doesn't return an empty cell in the CSV, therefore, all the empty cells are at the end of each row instead of leaving an empty cell.
 
 [] I'm sure there is a way to condense the url list since only the date in the URL is changed.
 
