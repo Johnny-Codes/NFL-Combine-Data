@@ -34,18 +34,23 @@ url_list = [
 "http://nflcombineresults.com/nflcombinedata_expanded.php?year=2014&pos=&college=",
 "http://nflcombineresults.com/nflcombinedata_expanded.php?year=2015&pos=&college=",
 "http://nflcombineresults.com/nflcombinedata_expanded.php?year=2016&pos=&college=",
-"http://nflcombineresults.com/nflcombinedata_expanded.php?year=2017&pos=&college=",
+"http://nflcombineresults.com/nflcombinedata_expanded.php?year=2017&pos=&college="
 ]
 
 #r = requests.get(url_list[0])
 
-filename = "playerdata.csv"
+filename = "playerdata2.csv"
 
 def openURL(input_list):
+# Added a list to store the data from different pages
+    new_list = []
     for url in input_list:
         r = requests.get(url)
         page_text = bs(r.content, 'html.parser')
-    return page_text
+        # Appending the data to this list
+        new_list.append(page_text)
+    # print(new_list)
+    return new_list
 
 def getPlayerData(soup):
 # This function identifies the wanted table within the given and passed webpage from function openPage()
@@ -65,12 +70,22 @@ def getPlayerData(soup):
             return data
 
 def ExportToCSV(data):
-    with open(filename, 'w') as f:
-       writer = csv.writer(f, delimiter=',')
-       writer.writerows(data)
+    # Added a parameter to remove the newlines in the output file
+    with open(filename, 'w', newline = '') as f:
+        writer = csv.writer(f, delimiter=',')
+        for row in data:
+            # Writing to the csv column wise
+            for column in row:
+                writer.writerow(column)
+        # writer.writerows(data)
     print('Player Data data variable has been saved to file', filename)
 
-
 soup = openURL(url_list)
-player_data = getPlayerData(soup)
-ExportToCSV(player_data)
+# List to store the data from multiple pages
+multi_pages = []
+# For the list items in the list
+for li in soup:
+    player_data = getPlayerData(li)
+    multi_pages.append(player_data)
+ExportToCSV(multi_pages)
+# ExportToCSV(player_data)
